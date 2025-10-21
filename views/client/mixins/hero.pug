@@ -1,0 +1,59 @@
+mixin hero(title, subtitle)
+  section.py-4.bg-body-tertiary.border-bottom
+    .container
+      // Khu vực hero: carousel giới thiệu CLB + 2 banner phụ
+      .row.g-3
+        .col-lg-8
+          #heroCarousel.carousel.slide(data-bs-ride="carousel")
+            .carousel-inner.rounded-3.shadow-sm.overflow-hidden
+              .carousel-item.active
+                img(src="/client/image/olp4.jpg" alt=title class="d-block w-100" style="height:260px;object-fit:cover;")
+                // Lớp phủ tối toàn ảnh
+                .position-absolute.top-0.start-0.w-100.h-100(style="background:linear-gradient(0deg, rgba(0,0,0,.55), rgba(0,0,0,.15)); z-index:1;")
+                if title || subtitle
+                  // Thanh caption bám sát mép dưới và full-width
+                  .position-absolute.bottom-0.start-0.end-0.z-2
+                    .px-3.py-2.bg-dark.bg-opacity-75
+                      if title
+                        .fw-semibold.text-white.fs-6= title
+                      if subtitle
+                        .text-white-50.small.mt-1= subtitle
+                      a.btn.btn-warning.btn-sm.mt-2(href="/tham-gia") Tham gia ngay
+              .carousel-item
+                img(src="/client/image/olp2.jpg" alt="Hoạt động CLB 2" class="d-block w-100" style="height:260px;object-fit:cover;")
+              .carousel-item
+                img(src="/client/image/olp3.jpg" alt="Hoạt động CLB 3" class="d-block w-100" style="height:260px;object-fit:cover;")
+            button.carousel-control-prev(type="button", data-bs-target="#heroCarousel", data-bs-slide="prev")
+              span.carousel-control-prev-icon(aria-hidden="true")
+              span.visually-hidden Trước
+            button.carousel-control-next(type="button", data-bs-target="#heroCarousel", data-bs-slide="next")
+              span.carousel-control-next-icon(aria-hidden="true")
+              span.visually-hidden Sau
+        .col-lg-4.d-none.d-lg-block
+          .d-grid.gap-3
+            a.d-block(href="/gioi-thieu", aria-label="Giới thiệu CLB")
+              .rounded-3.border.shadow-sm.overflow-hidden
+                img(src="/client/image/olp.jpg" alt="Giới thiệu CLB" class="w-100" style="height:122px;object-fit:cover;")
+            a.d-block(href="/su-kien", aria-label="Sự kiện sắp tới")
+              .rounded-3.border.shadow-sm.overflow-hidden
+                img(src="/client/image/olp5.jpg" alt="Sự kiện sắp tới" class="w-100" style="height:122px;object-fit:cover;")
+
+      //- // Hàng phím tắt nội dung CLB
+      //- .mt-3
+      //-   .row.g-2.text-center
+      //-     -
+      //-       const shortcuts = [
+      //-         {href:'/gioi-thieu', icon:'bi-people', text:'Về Câu Lạc Bộ'},
+      //-         {href:'/su-kien', icon:'bi-calendar-event', text:'Sự Kiện'},
+      //-         {href:'/tham-gia', icon:'bi-person-plus', text:'Đăng Ký Thành Viên'},
+      //-         {href:'/ban-chu-nhiem', icon:'bi-person-badge', text:'Ban Chủ Nhiệm'},
+      //-         {href:'/du-an', icon:'bi-lightbulb', text:'Dự Án'},
+      //-         {href:'/thu-vien-anh', icon:'bi-images', text:'Thư Viện Ảnh'},
+      //-         {href:'/lien-he', icon:'bi-envelope', text:'Liên Hệ / Tài Trợ'}
+      //-       ]
+      //-     each item in shortcuts
+      //-       .col-6.col-sm-4.col-md-3.col-lg-2
+      //-         a.d-flex.flex-column.align-items-center.justify-content-center.p-3.bg-white.border.rounded-3.h-100.text-decoration-none.text-body(href=item.href)
+      //-           .rounded-circle.p-3.bg-warning-subtle.border
+      //-             i.bi(class=item.icon + ' fs-4 text-warning')
+      //-           small.mt-2.fw-medium= item.text

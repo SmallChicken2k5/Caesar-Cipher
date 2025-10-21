@@ -1,0 +1,107 @@
+include ./moment.pug
+include ./item.pug
+include ./state.pug
+
+//- Header hồ sơ (avatar + tên + vai trò hiện tại + action)
+mixin memberHeader(user)
+  -
+    const terms = (user && user.terms) || [];
+    const currentTerm = terms.length ? terms[terms.length - 1] : null;
+    const roleText = currentTerm ? (currentTerm.roleTitle || currentTerm.role || 'Thành viên') : 'Thành viên';
+    const avatar = user.avatarUrl || '/client/image/logo.jpg';
+  .p-4.border.rounded-3.bg-white.shadow-sm
+    .d-flex.align-items-center.gap-3
+      .flex-shrink-0
+        img.rounded-circle.shadow(src=avatar alt=user.fullName width="96" height="96" style="object-fit:cover;border:3px solid var(--brand-accent)")
+      .flex-grow-1
+        h1.h4.mb-1.fw-semibold= user.fullName || 'Thành viên'
+        .d-flex.flex-wrap.gap-3.small.text-secondary
+          //- if roleText
+          //-   span
+          //-     i.bi.bi-person-badge-fill.text-warning.me-1
+          //-     = roleText
+          if user.studentId
+            span
+              i.bi.bi-hash.text-warning.me-1
+              = user.studentId
+          if user.email
+            span
+              i.bi.bi-envelope-fill.text-warning.me-1
+              = user.email
+      .d-flex.flex-column.flex-sm-row.gap-2
+        if user.email
+          a.btn.btn-warning.btn-sm(href=`mailto:${user.email}`)
+            i.bi.bi-envelope-paper-heart.me-1
+            | Gửi email
+        button.btn.btn-outline-secondary.btn-sm(type="button" data-action="copy-email" data-email=user.email disabled=!user.email)
+          i.bi.bi-clipboard.me-1
+          | Sao chép email
+
+//- Hàng thông tin (label + value, icon)
+mixin infoRow(icon, label, value, href)
+  if value
+    .d-flex.align-items-start.gap-2.mb-2
+      if icon
+        i(class=`bi ${icon} text-warning mt-1`)
+      div
+        .small.text-secondary= label
+        if href
+          a.text-decoration-none.text-body(href=href)= value
+        else
+          div.fw-medium= value
+
+//- Danh sách nhiệm kỳ dạng pill
+mixin termPills(terms)
+  if terms && terms.length
+    .d-flex.flex-wrap.gap-2
+      each t in terms
+        -
+          const isCurrent = !t.leftAt;
+          const label = t.name || t.slug || 'Nhiệm kỳ';
+        span.badge.rounded-pill(class=isCurrent ? 'text-bg-warning' : 'text-bg-light')= label
+  else
+    +emptyState('bi-calendar-x', 'Chưa có nhiệm kỳ', 'Thành viên này chưa cập nhật nhiệm kỳ.')
+
+//- Dòng thời gian nhiệm kỳ
+mixin termTimeline(terms)
+  if terms && terms.length
+    .bg-light.p-3.p-md-4.rounded-3
+      each t in terms
+        -
+          const title = t.roleTitle || t.role || 'Thành viên';
+          const desc = `Tham gia: ${moment(t.joinedAt).format('DD/MM/YYYY')}` + (t.leftAt ? ` • Kết thúc: ${moment(t.leftAt).format('DD/MM/YYYY')}` : '');
+        +timelineItem(t.name || t.slug, title, desc, 'bi-calendar2-week', t.role ? t.role.toUpperCase() : 'ROLE')
+  else
+    +emptyState('bi-clock-history', 'Chưa có lịch sử nhiệm kỳ', 'Chúng tôi sẽ cập nhật sớm.')
+
+//- Danh sách thành tích
+mixin achievementList(achievements)
+  if achievements && achievements.length
+    ul.list-group.list-group-flush.small
+      each a, i in achievements
+        li.list-group-item.px-0
+          .d-flex.align-items-start.gap-2
+            i.bi.bi-trophy-fill.text-warning.mt-1
+            .flex-grow-1
+              div.fw-semibold= (a && (a.title || a.name)) || a || 'Thành tích'
+              .text-secondary
+                if a && a.contest
+                  span.me-2
+                    i.bi.bi-flag.me-1
+                    = a.contest
+                if a && a.rank
+                  span.me-2
+                    i.bi.bi-award.me-1
+                    = a.rank
+                if a && (a.year || a.date)
+                  span
+                    i.bi.bi-calendar-event.me-1
+                    = a.year ? a.year : moment(a.date).format('DD/MM/YYYY')
+              if a && a.note
+                div.mt-1= a.note
+              if a && a.link
+                a.small.text-decoration-none(href=a.link target="_blank" rel="noopener")
+                  i.bi.bi-box-arrow-up-right.me-1
+                  | Xem chi tiết
+  else
+    +emptyState('bi-trophy', 'Chưa có thành tích', 'Thành viên này chưa cập nhật thành tích.')

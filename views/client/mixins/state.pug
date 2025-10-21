@@ -1,0 +1,12 @@
+mixin emptyState(icon, title, desc, actionHref, actionText)
+  .text-center.p-5.border.rounded-3.bg-light
+    if icon
+      i(class=`bi ${icon} fs-1 text-warning d-block mb-3`)
+    if title
+      h3.h5.mb-1= title
+    if desc
+      p.text-secondary.small.mb-4= desc
+    if actionHref && actionText
+      a.btn.btn-warning(href=actionHref)
+        i.bi.bi-plus-circle.me-2
+        = actionText

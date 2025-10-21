@@ -1,0 +1,115 @@
+include ./moment.pug
+mixin memberCard(name, role, avatarUrl, href)
+  a.d-flex.align-items-center.gap-3.p-3.border.rounded-3.text-decoration-none.text-reset(href=href)
+    // Avatar with shadow, border, and subtle gradient background
+    .avatar-wrapper(style="width:56px;height:56px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f8fafc,#e0e7ff);border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.08);border:2px solid #e0e7ff;")
+      img(src=avatarUrl alt=name width="48" height="48" class="rounded-circle object-fit-cover" style="box-shadow:0 1px 4px rgba(0,0,0,0.10);")
+    .flex-grow-1
+      div.fw-semibold= name
+      small.text-secondary= role
+    i.bi.bi-chevron-right.text-secondary
+
+//- Member card (memberCard2)
+mixin memberCard2(name, role, avatarUrl, email, bio, href)
+  .card.border-0.shadow-sm.rounded-3.position-relative
+    .card-body.d-flex.align-items-center.gap-3
+      // Avatar
+      .avatar-wrapper.flex-shrink-0(style="width:56px;height:56px;padding:2px;border-radius:12px;background:linear-gradient(135deg,#e0e7ff,#ffeaa7);box-shadow:0 2px 10px rgba(0,0,0,0.06);")
+        .avatar-inner(style="width:100%;height:100%;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;")
+          if avatarUrl
+            img(src=avatarUrl alt=name style="width:100%;height:100%;object-fit:cover;")
+          else
+            i.bi.bi-person-fill.text-secondary.fs-3
+      // Content
+      .flex-grow-1(style="min-width:0;")
+        .d-flex.align-items-center.gap-2
+          i.bi.bi-person-badge-fill.text-warning
+          div.fw-semibold.text-truncate= name
+        if role
+          small.text-secondary.d-flex.align-items-center.gap-1.mt-1
+            i.bi.bi-briefcase-fill
+            = role
+        if email
+          div.text-muted.small.mt-1.text-truncate
+            i.bi.bi-envelope-fill.me-1
+            = email
+        if bio
+          div.text-muted.small.mt-1= bio
+      i.bi.bi-chevron-right.text-secondary.ms-auto
+    if href
+      a.stretched-link(href=href aria-label=name)
+
+
+//- Executive card (executiveCard)
+mixin executiveCard(name, role, avatarUrl, email, bio, href)
+  a.d-flex.flex-column.align-items-center.text-center.gap-2.p-4.border.rounded-3.text-decoration-none.text-reset(
+    href=href
+    style="border-width:2px;border-color:#232323;background:#232323;box-shadow:0 4px 24px rgba(0,0,0,0.12);"
+  )
+    // Avatar centered
+    .avatar-wrapper.position-relative.mb-3(
+      style="width:96px;height:96px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#232323,#ffc10744);border-radius:50%;box-shadow:0 4px 16px rgba(255,193,7,0.10);border:3px solid #ffc107;"
+    )
+      if avatarUrl
+        img(src=avatarUrl alt=name width="86" height="86" class="rounded-circle object-fit-cover" style="box-shadow:0 2px 8px rgba(255,193,7,0.15);")
+      else
+        i.bi.bi-person-fill.text-warning.fs-1
+      i.bi.bi-award-fill.position-absolute.top-0.start-100.translate-middle.text-warning.fs-4(
+        style="z-index:2;"
+        title="Ban cán sự"
+      )
+
+    // Prominent role badge
+    if role
+      .badge.rounded-pill.bg-warning.text-dark.fw-bold.text-uppercase.px-3.py-2.mb-1(
+        style="letter-spacing:.5px;box-shadow:0 2px 8px rgba(255,193,7,.35);"
+        title=role
+      )
+        i.bi.bi-star-fill.me-1
+        = role
+
+    // Info below
+    div
+      div.fw-bold.text-light.fs-5= name
+      if email
+        div.text-warning.small.mt-1
+          i.bi.bi-envelope-fill.me-1
+          = email
+
+
+mixin featureCard(icon, title, text, href)
+  a.card.h-100.text-decoration-none.text-reset(href=href)
+    .card-body
+      if icon
+        i(class=`bi ${icon} fs-3 text-warning d-inline-block mb-3`)
+      h3.h6.mb-2= title
+      p.text-secondary.small.mb-0= text
+
+mixin milestoneCard(icon, title, period, text)
+  .card.h-100.border-0.shadow-sm.rounded-3
+    .card-body
+      if icon
+        i(class=`bi ${icon} fs-3 text-warning d-inline-block mb-2`)
+      h3.h6.mb-1= title
+      if period
+        div.small.text-secondary.mb-2
+          i.bi.bi-clock-history.me-1
+          = period
+      if text
+        p.text-secondary.small.mb-0= text
+
+mixin docCard(doc)
+  a.card.h-100.text-decoration-none.text-reset(href='/docs/'+doc.slug)
+    .card-body
+      .d-flex.align-items-start.justify-content-between.mb-2
+        h3.h6.mb-0.pe-3= doc.title
+        if doc.publishedAt
+          small.text-secondary 
+            +formatFromNow(doc.publishedAt)
+      if doc.summary
+        p.text-secondary.small.mb-3= doc.summary
+      if doc.categoryId
+        .d-flex.flex-wrap.gap-1
+          span.badge.bg-warning.bg-opacity-25.text-dark
+            i.bi.bi-tag.me-1
+            = doc.categoryId

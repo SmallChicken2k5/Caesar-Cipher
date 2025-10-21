@@ -1,0 +1,8 @@
+mixin section(title, desc)
+  section.py-5
+    .container
+      if title
+        h2.h4.mb-1= title
+      if desc
+        p.text-secondary.mb-4= desc
+      block

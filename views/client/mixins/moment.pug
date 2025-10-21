@@ -1,0 +1,14 @@
+mixin formatDateTime(time)
+    span #{moment(time).format('DD/MM/YYYY HH:mm:ss')}
+
+mixin formatDate(time)
+    span #{moment(time).format('DD/MM/YYYY')}
+
+mixin formatTime(time)
+    span #{moment(time).format('HH:mm:ss')}
+mixin formatFromNow(time)
+    - var daysAgo = moment().diff(moment(time), 'days');
+    if daysAgo > 0
+        span #{moment(time).format('DD/MM/YYYY')} (#{daysAgo} ngày trước)
+    else
+        span Hôm nay

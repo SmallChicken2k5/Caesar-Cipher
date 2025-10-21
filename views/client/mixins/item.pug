@@ -1,0 +1,25 @@
+include ./moment.pug
+mixin timelineItem(year, title, desc, icon, badge)
+  .position-relative.ps-4.pb-4.border-start.border-2.border-secondary-subtle
+    // mốc tròn
+    span.position-absolute.translate-middle.bg-warning.rounded-circle(
+      style="width:12px;height:12px;left:0;top:.85rem;"
+      aria-hidden="true"
+    )
+    .d-flex.align-items-center.gap-2.mb-1
+      if icon
+        i(class=`bi ${icon} text-warning`)
+      if year
+        span.badge.text-bg-dark= year
+      if badge
+        span.badge.bg-warning.bg-opacity-25.text-warning= badge
+    h3.h6.mb-1= title
+    if desc
+      p.text-secondary.small.mb-0= desc
+
+mixin docItem(doc)
+  a.list-group-item.list-group-item-action.d-flex.justify-content-between.align-items-center(href='/docs/'+doc.slug)
+    span= doc.title
+    if doc.publishedAt
+      small.text-secondary
+        +formatFromNow(doc.publishedAt)

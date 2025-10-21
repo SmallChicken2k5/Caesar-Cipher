@@ -1,0 +1,33 @@
+mixin termFilter(terms, selectedSlug)
+  #members-term-filter.brand-filter.border.rounded-3.shadow-sm.p-3.p-md-4
+    .row.g-3.align-items-center
+      .col-md
+        .d-flex.align-items-center.gap-2.mb-1
+          span.brand-badge
+            i.bi.bi-calendar2-week
+          strong.fw-semibold Chọn nhiệm kỳ
+        .brand-help.text-secondary.small
+          i.bi.bi-info-circle.me-1
+          | Tự động áp dụng khi thay đổi
+      .col-md-6.col-lg-5.ms-auto
+        .input-group
+          span.input-group-text.brand-addon
+            i.bi.bi-calendar3-event
+          select#termFilter.form-select.brand-select(data-base="/members" aria-label="Chọn nhiệm kỳ" required)
+            each t, i in (terms || [])
+              option(
+                value=t.slug
+                selected=(selectedSlug ? selectedSlug === t.slug : i === 0)
+              )= t.name
+          if selectedSlug
+            a.btn.btn-outline-secondary.brand-clear(href="/members" title="Bỏ lọc")
+              i.bi.bi-x-circle
+
+mixin filterChips(filters)
+    .d-flex.flex-wrap.gap-2
+        each f in (filters || [])
+            - var cls = 'badge rounded-pill text-decoration-none ' + (f.active ? 'text-bg-warning' : 'text-bg-light')
+            a(class=cls, href=f.href ? f.href : "#")
+                if f.icon
+                    i(class="bi " + f.icon + " me-1")
+                = f.label
