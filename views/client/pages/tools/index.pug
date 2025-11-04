@@ -1,0 +1,15 @@
+extends ../../layouts/default.pug
+include ../../mixins/hero.pug
+include ../../mixins/section.pug
+include ../../mixins/card.pug
+include ../../mixins/stat.pug
+include ../../mixins/item.pug
+include ../../mixins/alert.pug
+
+block main
+    +showAlertSuccess(5000)
+    +showAlertError(5000)
+
+    .container
+        h1 Lab Tool
+        p Chào mừng bạn đến với trang công cụ của chúng tôi. Hãy chọn một công cụ từ menu để bắt đầu.

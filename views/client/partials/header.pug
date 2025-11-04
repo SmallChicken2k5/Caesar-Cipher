@@ -1,14 +1,36 @@
 header#site-header
-  nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+  nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.shadow-sm.sticky-top
     .container
-      a.navbar-brand(href='/')
+      a.navbar-brand.d-flex.align-items-center(href='/')
         i.bi.bi-shield-lock-fill.me-2
-        | Caesar Cipher Lab
+        span.fw-semibold Crypto Toolbox
+        span.d-none.d-md-inline.ms-2.text-secondary.fs-6 · Công cụ Mã hóa/Giải mã
       button.navbar-toggler(type='button', data-bs-toggle='collapse', data-bs-target='#mainNav', aria-controls='mainNav', aria-expanded='false', aria-label='Toggle navigation')
         span.navbar-toggler-icon
       #mainNav.collapse.navbar-collapse
-        ul.navbar-nav.ms-auto.mb-2.mb-lg-0
+        ul.navbar-nav.ms-auto.align-items-lg-center
           li.nav-item
-            a.nav-link(href='/') Trang chủ
-          li.nav-item
-            a.nav-link(href='/#howto') Hướng dẫn
+            a.nav-link.px-3(href='/')
+              i.bi.bi-house-door.me-1
+              | Trang chủ
+          li.nav-item.dropdown
+            a#toolsDropdown.nav-link.dropdown-toggle.px-3(href='#', role='button', data-bs-toggle='dropdown', aria-expanded='false')
+              i.bi.bi-tools.me-1
+              | Công cụ
+            ul.dropdown-menu.dropdown-menu-end.dropdown-menu-dark(aria-labelledby='toolsDropdown')
+              li
+                h6.dropdown-header Công cụ cổ điển
+              li
+                a.dropdown-item.d-flex.align-items-center(href='/tool/caesar')
+                  i.bi.bi-chevron-right.me-2
+                  | Caesar Cipher
+              li
+                a.dropdown-item.d-flex.align-items-center(href='/tool/vigenere')
+                  i.bi.bi-chevron-right.me-2
+                  | Vigenère Cipher
+              li
+                hr.dropdown-divider
+              li
+                a.dropdown-item.d-flex.align-items-center(href='/')
+                  i.bi.bi-info-circle.me-2
+                  | Hướng dẫn sử dụng

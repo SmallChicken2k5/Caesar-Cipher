@@ -5,6 +5,7 @@ const multer = require('multer');
 const upload = multer({ storage: multer.memoryStorage() });
 
 router.get('/', controller.index);
-router.post('/process', upload.single('file'), controller.process);
+
+
 
 module.exports = router;

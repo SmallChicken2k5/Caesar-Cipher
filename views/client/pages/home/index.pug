@@ -1,43 +1,95 @@
 extends ../../layouts/default.pug
-include ../../mixins/hero.pug
-include ../../mixins/section.pug
-include ../../mixins/card.pug
-include ../../mixins/stat.pug
-include ../../mixins/item.pug
 include ../../mixins/alert.pug
 
 block main
-    +showAlertSuccess(5000)
-    +showAlertError(5000)
+  +showAlertSuccess(5000)
+  +showAlertError(5000)
 
+  // Hero
+  section.py-5.bg-dark.text-light
     .container
-        h1 Caesar Cipher
-        form(method="POST", action="/process", enctype="multipart/form-data")
-            .row
-                .col-md-8
-                    label(for="text") Nhập văn bản
-                    textarea#text.form-control(name="text", rows="6")= formData && formData.text ? formData.text : ''
-                .col-md-4
-                    label(for="file") Hoặc chọn file .txt
-                    input#file.form-control(type="file", name="file", accept=".txt")
-                    small.text-muted File sẽ thay thế nội dung ở ô văn bản nếu được chọn.
-                    hr
-                    label(for="key") Khóa (0-25)
-                    input#key.form-control(type="number", name="key", min="0", max="25", required, value=(formData && formData.key !== undefined ? formData.key : ''))
-                    .mt-2
-                        label.me-2 Chế độ:
-                        label.me-3
-                            input(type="radio", name="mode", value="encrypt", checked=(formData && formData.mode === 'encrypt')) 
-                            |  Mã hóa
-                        label
-                            input(type="radio", name="mode", value="decrypt", checked=(formData && formData.mode === 'decrypt'))
-                            |  Giải mã
-                    .form-check.mt-2
-                        input.form-check-input#download(type="checkbox", name="download", value="1")
-                        label.form-check-label(for="download") Tải kết quả về file
-                    button.btn.btn-primary.mt-3(type="submit") Thực hiện
+      .row.align-items-center.g-4
+        .col-lg-7
+          h1.display-5.fw-bold.mb-3 Công cụ Mã hóa/Giải mã
+          p.lead.mb-4 Nhanh chóng thử nghiệm các thuật toán mã hóa cổ điển. Dán văn bản, nhập khóa và xem kết quả ngay.
+        //-   .d-flex.flex-wrap.gap-2
+        //-     a.btn.btn-primary.btn-lg(href='/tool/caesar')
+        //-       i.bi.bi-shuffle.me-2
+        //-       | Dùng Caesar Cipher
+        //-     a.btn.btn-outline-light.btn-lg(href='/tool/vigenere')
+        //-       i.bi.bi-key.me-2
+        //-       | Dùng Vigenère Cipher
+        .col-lg-5.text-center
+          i.bi.bi-shield-lock.display-1
+          p.text-secondary.mt-2.mb-0 Bảo toàn định dạng, chỉ dịch ký tự chữ cái A–Z
 
-        if result
-            hr
-            h3 Kết quả
-            textarea.form-control(rows="6", readonly)= result
+  // Features
+  section.py-5
+    .container
+      .row.g-4
+        .col-md-4
+          .card.h-100.shadow-sm
+            .card-body
+              h5.card-title
+                i.bi.bi-lightning-charge-fill.text-primary.me-2
+                | Mã hóa tức thì
+              p.card-text Nhập văn bản và xem kết quả ngay khi gửi biểu mẫu.
+        .col-md-4
+          .card.h-100.shadow-sm
+            .card-body
+              h5.card-title
+                i.bi.bi-file-earmark-text.text-success.me-2
+                | Hỗ trợ file .txt
+              p.card-text Tải lên hoặc tải xuống kết quả dưới dạng tập tin văn bản.
+        .col-md-4
+          .card.h-100.shadow-sm
+            .card-body
+              h5.card-title
+                i.bi.bi-ui-checks-grid.text-info.me-2
+                | Giao diện đơn giản
+              p.card-text Sử dụng các thành phần Bootstrap 5, dễ thao tác và trực quan.
+
+  // Tools grid
+  section.py-5.bg-body-tertiary
+    .container
+      h2.h4.mb-4
+        i.bi.bi-tools.me-2
+        | Các công cụ có sẵn
+      .row.g-4
+        .col-md-6
+          .card.border-0.shadow-sm.h-100
+            .card-body
+              h5.card-title.mb-2
+                i.bi.bi-chevron-right.me-2.text-primary
+                | Caesar Cipher
+              p.card-text Dịch từng ký tự theo một khóa dịch cố định trong bảng chữ cái.
+              a.btn.btn-primary(href='/tool/caesar')
+                i.bi.bi-play-fill.me-1
+                | Bắt đầu
+        .col-md-6
+          .card.border-0.shadow-sm.h-100
+            .card-body
+              h5.card-title.mb-2
+                i.bi.bi-chevron-right.me-2.text-primary
+                | Vigenère Cipher
+              p.card-text Mã hóa nhiều bảng với chuỗi khóa lặp lại, an toàn hơn so với Caesar.
+              a.btn.btn-outline-primary(href='/tool/vigenere')
+                i.bi.bi-play-fill.me-1
+                | Bắt đầu
+
+  // How to
+  section.py-5
+    .container
+      h2.h4.mb-3
+        i.bi.bi-journal-check.me-2
+        | Cách sử dụng
+      ol.list-group.list-group-numbered
+        li.list-group-item.d-flex.align-items-center
+          i.bi.bi-clipboard2-check.me-2.text-primary
+          | Chọn công cụ ở trên.
+        li.list-group-item.d-flex.align-items-center
+          i.bi.bi-type.me-2.text-primary
+          | Nhập văn bản và khóa (hoặc tải file .txt).
+        li.list-group-item.d-flex.align-items-center
+          i.bi.bi-download.me-2.text-primary
+          | Chọn tải kết quả về nếu cần, sau đó nhấn Thực hiện.
